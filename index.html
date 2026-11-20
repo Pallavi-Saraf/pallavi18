@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Manjunath Bestha | Exoplanets & Instrumentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* Profile Image Ambient Breathing Glow */
+    header img {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s ease;
+      animation: profileFloat 6s ease-in-out infinite;
+    }
+
+    header img:hover {
+      transform: scale(1.04);
+      box-shadow: 0 0 28px rgba(255, 255, 255, 0.25);
+    }
+
+    @keyframes profileFloat {
+      0%, 100% { box-shadow: 0 0 15px rgba(255, 255, 255, 0.06); }
+      50% { box-shadow: 0 0 25px rgba(255, 255, 255, 0.18); }
+    }
+
+    /* Live Status / Milestone Banner with Mild Glass Shimmer */
+    .live-banner {
+      position: relative;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px auto 20px;
+      padding: 8px 18px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      font-size: 0.85rem;
+      color: var(--heading);
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.04);
+      text-align: center;
+      backdrop-filter: blur(6px);
+    }
+
+    /* Subtle Periodic Shimmer Sweep Across Banner */
+    .live-banner::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.14),
+        transparent
+      );
+      transform: skewX(-20deg);
+      animation: shimmerSweep 7s infinite;
+    }
+
+    @keyframes shimmerSweep {
+      0%, 65% { left: -120%; }
+      100% { left: 160%; }
+    }
+
+    .pulse-dot {
+      width: 8px;
+      height: 8px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #ffffff;
+      animation: pulse 2.5s infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 0.75; }
+      50% { transform: scale(1.35); opacity: 1; box-shadow: 0 0 16px #ffffff, 0 0 6px #ffffff; }
+      100% { transform: scale(0.95); opacity: 0.75; }
+    }
+
+    /* Introduction */
+    .intro-text {
+      max-width: 850px;
+      margin: 0 auto;
+      text-align: left;
+      line-height: 1.9;
+    }
+
+    .intro-lead {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.15rem;
+      color: var(--heading);
+      line-height: 1.9;
+    }
+
+    /* Greeting */
+    .greeting-heading {
+      font-size: 1.6rem;
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--heading);
+      margin-bottom: 18px;
+      animation: fadeGlowIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    /* =====================================================
+       ULTRA-SMOOTH GROWING WINDOW FOR "ABOUT ME" PARAGRAPHS
+       Uses CSS Grid 0fr -> 1fr so the box expands at the
+       exact natural speed of the text without any jumpiness
+    ===================================================== */
+    .para-wrapper {
+      display: grid;
+      grid-template-rows: 0fr;
+      opacity: 0;
+      transform: translateY(12px);
+      filter: blur(4px);
+      margin-bottom: 0;
+      transition:
+        grid-template-rows 2.2s cubic-bezier(0.16, 1, 0.3, 1),
+        margin-bottom 2.2s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 2.0s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 2.0s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 1.8s ease;
+    }
+
+    .para-wrapper.visible {
+      grid-template-rows: 1fr;
+      opacity: 1;
+      transform: translateY(0);
+      filter: blur(0);
+      margin-bottom: 20px;
+      animation: mildParaFlash 2.4s ease-out forwards;
+    }
+
+    .para-wrapper.visible:last-child {
+      margin-bottom: 0;
+    }
+
+    .para-inner {
+      overflow: hidden;
+    }
+
+    .para-inner p {
+      margin: 0;
+    }
+
+    @keyframes mildParaFlash {
+      0% {
+        text-shadow: 0 0 14px rgba(255, 255, 255, 0.45);
+      }
+      100% {
+        text-shadow: 0 0 0px rgba(255, 255, 255, 0);
+      }
+    }
+
+    @keyframes fadeGlowIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+        text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+        text-shadow: none;
+      }
+    }
+
+    /* =====================================================
+       SLOW, LIQUID SIDEWAYS SLIDER FOR RESEARCH INTERESTS
+    ===================================================== */
+    .research-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 28px;
+    }
+
+    .tab-btn {
+      position: relative;
+      overflow: hidden;
+      padding: 10px 22px;
+      background: rgba(16, 16, 24, 0.7);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      color: var(--text-muted);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .tab-btn:hover {
+      border-color: rgba(255, 255, 255, 0.6);
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+    }
+
+    .tab-btn.active-tab {
+      background: #ffffff;
+      color: var(--background, #0b0b12);
+      border-color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 22px rgba(255, 255, 255, 0.25);
+    }
+
+    /* Sideways Auto-Sliding Carousel Viewport & Track */
+    .research-slider-viewport {
+      max-width: 780px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 16px;
+    }
+
+    .research-slider-track {
+      display: flex;
+      width: 100%;
+      /* Slow, silky 1.8-second horizontal glide */
+      transition: transform 1.8s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+    }
+
+    /* Glass Card Styling for Tab Contents */
+    .tab-content {
+      flex: 0 0 100%;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 28px 32px;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+      border-radius: 16px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+      opacity: 0.45;
+      transform: scale(0.985);
+      transition:
+        opacity 1.6s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .tab-content.active-slide {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .tab-content .button {
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+    }
+
+    .tab-content .button:hover {
+      transform: translateX(4px);
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.18);
+    }
+
+    /* Background Image Credit */
+    .bg-credit {
+      transition: opacity 1.4s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .bg-credit.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .bg-credit:hover {
+      opacity: 1 !important;
+      pointer-events: auto;
+    }
+
+    @media (max-width: 600px) {
+      .live-banner {
+        font-size: 0.75rem;
+        padding: 8px 12px;
+      }
+
+      .intro-lead {
+        font-size: 1.05rem;
+      }
+
+      .tab-btn {
+        padding: 9px 14px;
+        font-size: 0.8rem;
+      }
+
+      .tab-content {
+        padding: 20px 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <img src="images/profile.jpg" alt="Manjunath Bestha">
+  <h1>Manjunath Bestha</h1>
+  <p>PhD Candidate · Astronomical Instrumentation & Exoplanet Spectroscopy</p>
+  <p>Indian Institute of Astrophysics, Bengaluru</p>
+
+  <!-- Thesis Status -->
+  <div>
+    <div class="live-banner">
+      <span class="pulse-dot"></span>
+      <span>PhD Thesis Submitted — Awaiting Defense (2026)</span>
+    </div>
+  </div>
+
+  <!-- Universal Navigation -->
+  <nav>
+    <!-- About Dropdown -->
+    <div class="nav-dropdown active" tabindex="0">
+      <span class="active-sub">About</span>
+      <div class="dropdown-content">
+        <span class="dropdown-label">On This Page</span>
+        <a href="#about" class="active-sub">About Me</a>
+        <a href="#research-interests">Research Interests</a>
+      </div>
+    </div>
+
+    <!-- Research Dropdown -->
+    <div class="nav-dropdown" tabindex="0">
+      <a href="research.html">Research</a>
+      <div class="dropdown-content">
+        <span class="dropdown-label">Research Highlights</span>
+        <a href="research.html#adc-tmt">Broadband ADC (HROS–TMT)</a>
+        <a href="research.html#hanle-dispersion">Atmospheric Dispersion (Hanle)</a>
+        <a href="research.html#mots-systematics">Transmission Systematics</a>
+        <a href="research.html#kelt9b-feii">KELT-9 b Atmosphere</a>
+        <a href="research.html#mo-hrts">MO-HRTS Simulations</a>
+        <a href="research.html#elt-fiber">ELT Fiber Positioning</a>
+      </div>
+    </div>
+
+    <!-- Publications Dropdown -->
+    <div class="nav-dropdown" tabindex="0">
+      <a href="publications.html">Publications</a>
+      <div class="dropdown-content">
+        <span class="dropdown-label">Publications</span>
+        <a href="publications.html#journals">Journal Articles</a>
+        <a href="publications.html#proceedings">Conference Proceedings</a>
+        <a href="publications.html#manuscripts">Manuscripts in Prep</a>
+      </div>
+    </div>
+
+    <!-- More Dropdown -->
+    <div class="nav-dropdown more-menu" tabindex="0">
+      <span>More</span>
+      <div class="dropdown-content">
+        <span class="dropdown-label">Explore More</span>
+        <a href="thoughts.html">Thoughts</a>
+        <a href="achievements.html">Honors & Recognitions</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="ul.html">Useful Links</a>
+        <div class="dropdown-divider"></div>
+        <span class="dropdown-label">Quick Navigation</span>
+        <a href="cv/cv.pdf" target="_blank">Download Full CV (PDF)</a>
+        <a href="contact.html">Get in Touch</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+
+<!-- SECTION 1: ABOUT ME -->
+<section id="about">
+
+  <div class="section-header-bar">
+    <h2>About Me</h2>
+
+    <div class="subsection-switcher" tabindex="0">
+      <span class="subsection-switcher-btn">Jump to Section ▾</span>
+
+      <div class="dropdown-content">
+        <span class="dropdown-label">Home Page</span>
+        <a href="#about">About Me</a>
+        <a href="#research-interests">Research Interests</a>
+
+        <div class="dropdown-divider"></div>
+
+        <span class="dropdown-label">Other Pages</span>
+        <a href="research.html">Research Highlights</a>
+        <a href="publications.html">Publications</a>
+        <a href="contact.html">Get in Touch</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="center-text">
+
+    <p class="greeting-heading">
+      Hi there! 👋
+    </p>
+
+    <div class="intro-text">
+
+      <!-- Paragraph 1 -->
+      <div class="para-wrapper">
+        <div class="para-inner">
+          <p class="intro-lead">
+            I am an astronomer working at the intersection of astronomical
+            instrumentation and exoplanet science, with a particular interest
+            in understanding planetary atmospheres through ground-based
+            spectroscopy.
+          </p>
+        </div>
+      </div>
+
+      <!-- Paragraph 2 -->
+      <div class="para-wrapper">
+        <div class="para-inner">
+          <p>
+            My research explores how observations from ground-based telescopes
+            can reveal the physical and chemical properties of distant
+            exoplanets. Alongside observational astronomy, I work on the design
+            and simulation of astronomical instruments, bringing together
+            optical engineering, mechanical design, and data analysis.
+          </p>
+        </div>
+      </div>
+
+      <!-- Paragraph 3 -->
+      <div class="para-wrapper">
+        <div class="para-inner">
+          <p>
+            I completed the Integrated M.Tech–PhD program in Astronomical
+            Instrumentation at the Indian Institute of Astrophysics (IIA),
+            Bengaluru, and have submitted my PhD thesis to the University of
+            Calcutta. I am currently awaiting my thesis defense.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+
+<!-- SECTION 2: RESEARCH INTERESTS -->
+<section id="research-interests">
+
+  <h2>Research Interests</h2>
+
+  <div class="center-text" style="margin-bottom: 10px;">
+    <p style="font-size: 0.95rem; color: var(--text-muted);">
+      Explore my primary research areas:
+    </p>
+  </div>
+
+  <!-- Interactive Wrapper (Pauses sideways auto-slide on hover) -->
+  <div id="research-carousel-zone">
+
+    <!-- Interactive Tab Buttons -->
+    <div class="research-tabs" role="tablist">
+      <button class="tab-btn active-tab" role="tab" aria-selected="true" onclick="selectTab(0)">
+        Exoplanet Atmospheres
+      </button>
+
+      <button class="tab-btn" role="tab" aria-selected="false" onclick="selectTab(1)">
+        Instrumentation
+      </button>
+
+      <button class="tab-btn" role="tab" aria-selected="false" onclick="selectTab(2)">
+        Observational Systematics
+      </button>
+    </div>
+
+    <!-- Sideways Sliding Viewport -->
+    <div class="research-slider-viewport">
+      <div class="research-slider-track" id="research-track">
+
+        <!-- Tab 1: Exoplanets -->
+        <div id="tab-exoplanets" class="tab-content active-slide center-text" role="tabpanel">
+          <p>
+            My research focuses on ground-based low- and high-resolution transmission spectroscopy of exoplanet atmospheres, particularly ultra-hot Jupiters such as KELT-9 b and other transiting systems. I use observations from ground-based facilities, including the 2 m Himalayan Chandra Telescope (HCT), to investigate planetary atmospheric properties and to develop observational techniques for precise atmospheric characterization.
+          </p>
+
+          <a href="research.html" class="button" style="margin-top: 15px;">
+            View Research Highlights →
+          </a>
+        </div>
+
+        <!-- Tab 2: Instrumentation -->
+        <div id="tab-instrumentation" class="tab-content center-text" role="tabpanel">
+          <p>
+            I specialize in the design and simulation of astronomical instruments.
+            This includes optical design of broadband Atmospheric Dispersion
+            Correctors (ADCs) for the High-Resolution Optical Spectrograph on
+            the Thirty Meter Telescope (HROS-TMT) and mechanical design of
+            multi-functional fiber positioning systems for extremely large
+            telescopes.
+          </p>
+
+          <a href="research.html#adc-tmt" class="button" style="margin-top: 15px;">
+            Explore TMT & Fiber Designs →
+          </a>
+        </div>
+
+        <!-- Tab 3: Systematics -->
+        <div id="tab-systematics" class="tab-content center-text" role="tabpanel">
+          <p>
+            I study the observational systematics that affect ground-based exoplanet transmission spectroscopy, focusing on elevation-dependent effects, instrumental flexure, and atmospheric refraction. By characterizing and correcting these sources of variability, I aim to improve the precision and reliability of planetary atmospheric measurements.
+          </p>
+
+          <a href="publications.html" class="button" style="margin-top: 15px;">
+            Read Related Papers →
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+<footer>
+  <p>© Manjunath Bestha</p>
+</footer>
+
+
+<!-- Background Image Credit -->
+<div class="bg-credit">
+  Background: Himalayan Chandra Telescope (IAO Hanle) — Photo by
+  <a href="https://x.com/dorje_angchuk" target="_blank" rel="noopener noreferrer">
+    Dorje Angchuk
+  </a>
+</div>
+
+
+<!-- Interactive Scripts -->
+<script>
+
+  // 1. Slow, Smooth Sideways Auto-Sliding Research Tabs (Pauses on Hover)
+  let currentTabIndex = 0;
+  const totalTabs = 3;
+  const slideIntervalMs = 7500; // Unhurried 7.5 seconds per slide for comfortable reading
+  let autoSlideTimer = null;
+
+  function selectTab(index) {
+    currentTabIndex = index;
+    const track = document.getElementById("research-track");
+    const buttons = document.getElementsByClassName("tab-btn");
+    const slides = document.getElementsByClassName("tab-content");
+
+    // Glide track horizontally
+    if (track) {
+      track.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    // Smoothly highlight active button and active card
+    for (let j = 0; j < totalTabs; j++) {
+      if (j === index) {
+        buttons[j].classList.add("active-tab");
+        buttons[j].setAttribute("aria-selected", "true");
+        slides[j].classList.add("active-slide");
+      } else {
+        buttons[j].classList.remove("active-tab");
+        buttons[j].setAttribute("aria-selected", "false");
+        slides[j].classList.remove("active-slide");
+      }
+    }
+  }
+
+  function startAutoSlide() {
+    stopAutoSlide();
+    autoSlideTimer = setInterval(() => {
+      const nextIndex = (currentTabIndex + 1) % totalTabs;
+      selectTab(nextIndex);
+    }, slideIntervalMs);
+  }
+
+  function stopAutoSlide() {
+    if (autoSlideTimer) {
+      clearInterval(autoSlideTimer);
+      autoSlideTimer = null;
+    }
+  }
+
+  // 2. Smooth Paragraph-by-Paragraph Expansion (Every 5.5 Seconds)
+  document.addEventListener("DOMContentLoaded", function () {
+    const wrappers = document.querySelectorAll(".para-wrapper");
+    const initialDelay = 600;       // Gentle pause after greeting appears
+    const delayBetweenParas = 5500; // 5.5 seconds between each paragraph expansion
+
+    wrappers.forEach((wrapper, index) => {
+      setTimeout(() => {
+        wrapper.classList.add("visible");
+      }, initialDelay + index * delayBetweenParas);
+    });
+
+    // Start sideways carousel and pause while cursor is over the tabs or card
+    const carouselZone = document.getElementById("research-carousel-zone");
+    startAutoSlide();
+
+    if (carouselZone) {
+      carouselZone.addEventListener("mouseenter", stopAutoSlide);
+      carouselZone.addEventListener("mouseleave", startAutoSlide);
+      carouselZone.addEventListener("focusin", stopAutoSlide);
+      carouselZone.addEventListener("focusout", startAutoSlide);
+    }
+  });
+
+
+  // 3. Background Credit Fade-Out
+  window.addEventListener("load", function () {
+    const credit = document.querySelector('.bg-credit');
+    if (!credit) return;
+
+    setTimeout(() => {
+      if (!credit.matches(':hover')) {
+        credit.classList.add('fade-out');
+      }
+    }, 3500);
+  });
+
+</script>
+
+</body>
+</html>
